@@ -39,6 +39,8 @@ const SearchBar = (props) => {
   };
 
   return (
+
+    <div className={props.className2}>
     <div className={props.className}>
       <input
         type="text"
@@ -57,6 +59,7 @@ const SearchBar = (props) => {
           </ul>
        </div>
       )}
+    </div>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import "./styles.css";
 import React, { useState, useEffect } from "react";
 import SearchBar from "./Searchbar";
+import HourlyForecastSetup from "./HourlyForecastSetup"
+import Header from "./Header";
 import debounce from "lodash.debounce";
 import Hourly from "./Hourly"; // Import the Hourly component here
 
@@ -80,52 +82,48 @@ export default function App() {
   return (
     <div className="containers">
     <div className="weather-card">
-    <div className="search-bar-container"> {/* Add this container */}
+
         <SearchBar
            className="custom-search-bar"
            className1="search-suggestions"
+           className2="search-bar-container"
            updateArea={updateArea}
         />
-        </div>
-      <div className="weather-card__header">
-        <h1 className="header-name">{weather.location?.name}</h1>
-        <h1 className="weather-card__temperature temp">
-          {Math.trunc(weather.current?.temp_f) + "°"}
-        </h1>
-        <h1 className="weather-card__condition">
-          {weather.current?.condition?.text}
-        </h1>
-      </div>
 
-      <div className="hourly-forecast">
-        <p><i class="fa-solid fa-clock"></i> HOURLY FORECAST</p>
-        <div className="hourly">
-      {weather.forecast &&
-        weather.forecast.forecastday[0].hour.map(forecast)}
-    </div>
-    </div>
+        <Header
+        className1={"weather-card__header"}
+        className2={"header-name"}
+        className3={"weather-card__temperature temp"}
+        className4={"weather-card__condition"}
+        location={weather.location?.name}
+        temperature={weather.current?.temp_f}
+        condition={weather.current?.condition?.text} />
 
-
+       <HourlyForecastSetup
+       className1={"hourly-forecast"}
+       className2={"fa-solid fa-clock"}
+       className3={"hourly"}
+       mapForecast={weather.forecast &&
+         weather.forecast.forecastday[0].hour.map(forecast)}
+       />
 
     <div className="weather-forecast">
         {weather.forecast &&
           weather.forecast.forecastday
             .filter((day) => !isPreviousDate(day.date))
             .map((day) => (
-
-
-<div key={day.date} class="container text-center">
-  <div class="row ">
-    <div class="col-lg-3 col-md-6 col-sm-12"><p className="weather-card__day">
+<div key={day.date} className="container text-center">
+  <div className="row ">
+    <div className="col-lg-3 col-md-6 col-sm-12"><p className="weather-card__day">
                   {day.date === new Date().toJSON().slice(0, 10)
                     ? "Today"
                     : getWeekdayFromDate(day.date)}
                 </p></div>
-    <div class="col-lg-3 col-md-6 col-sm-12"><img src={day.day?.condition?.icon} alt="Condition" /></div>
-    <div class="col-lg-3 col-md-6 col-sm-12"><p className="weather-card__temperature">
+    <div className="col-lg-3 col-md-6 col-sm-12"><img src={day.day?.condition?.icon} alt="Condition" /></div>
+    <div className="col-lg-3 col-md-6 col-sm-12"><p className="weather-card__temperature">
                   {"Low: " + Math.trunc(day.day?.mintemp_f) + "°"}
                 </p></div>
-    <div class="col-lg-3 col-md-6 col-sm-12"><p className="weather-card__temperature">
+    <div className="col-lg-3 col-md-6 col-sm-12"><p className="weather-card__temperature">
                   {"High: " +Math.trunc(day.day?.maxtemp_f) + "°"}
                 </p></div>
   </div>
